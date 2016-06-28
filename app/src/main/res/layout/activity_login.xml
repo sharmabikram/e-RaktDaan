@@ -10,7 +10,7 @@
 
 
     <EditText
-        android:hint="Email"
+        android:hint="Phone"
         android:textSize="20dp"
         android:gravity="center"
         android:layout_width="300dp"

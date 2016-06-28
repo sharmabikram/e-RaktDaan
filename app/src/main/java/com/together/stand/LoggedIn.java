@@ -2,12 +2,15 @@ package com.together.stand;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.opengl.EGLDisplay;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.internal.widget.AdapterViewCompat;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoggedIn extends AppCompatActivity {
+
+    static boolean home = true;
 
     String TAG = "Update";
     String url = "http://10.0.3.2/donate/registerVolunteer.php";
@@ -53,6 +58,24 @@ public class LoggedIn extends AppCompatActivity {
         genAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, gender);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.log_out, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_logout){
+            SharedPreferences.Editor update = LaunchingPage.userInfo.edit();
+            update.putString("phone", " ");
+            update.commit();
+            startActivity(new Intent(getApplicationContext(), loginPage.class));
+            finish();
+        }
+        return true;
+    }
+
     public void getList(View v){
         // get the list
         setContentView(0);
@@ -60,6 +83,7 @@ public class LoggedIn extends AppCompatActivity {
 
     public void register_volunteer(View v){
         setContentView(R.layout.volunteer_form);
+        home = false;
         nm = (EditText) findViewById(R.id.name);
         add = (EditText) findViewById(R.id.address);
         ag = (EditText) findViewById(R.id.age);
@@ -150,6 +174,7 @@ public class LoggedIn extends AppCompatActivity {
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
+            pDialog.dismiss();
             if(jsonObject !=null){
                 try{
                     if(jsonObject.getString("success").equals("1")){
@@ -164,7 +189,7 @@ public class LoggedIn extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Error occured try later...", Toast.LENGTH_LONG).show();
                 setContentView(R.layout.activity_logged_in);
             }
-            pDialog.dismiss();
+
         }
     }
 
@@ -176,5 +201,18 @@ public class LoggedIn extends AppCompatActivity {
         height = hei.getText().toString();
         weight = wei.getText().toString();
         new task().execute();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.d(TAG, "back");
+        if(home)
+            System.exit(0);
+        Log.d(TAG, "after exit");
+        startActivity(new Intent(getApplicationContext(), LoggedIn.class));
+        Log.d(TAG, "start");
+        home = true;
+        return ;
     }
 }
