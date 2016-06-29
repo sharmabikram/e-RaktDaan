@@ -205,14 +205,14 @@ public class LoggedIn extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         Log.d(TAG, "back");
-        if(home)
-            System.exit(0);
-        Log.d(TAG, "after exit");
-        startActivity(new Intent(getApplicationContext(), LoggedIn.class));
-        Log.d(TAG, "start");
-        home = true;
-        return ;
+        if(home){
+            super.onBackPressed();
+        }
+        else {
+            Log.d(TAG, "after exit");
+            setContentView(R.layout.activity_logged_in);
+            home = true;
+        }
     }
 }
