@@ -10,14 +10,16 @@ public class LaunchingPage extends AppCompatActivity {
 
     static SharedPreferences userInfo;
     static String savedPhone;
+    static boolean isVolunteer;
     Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launching_page);
-        userInfo = getSharedPreferences("phone", Context.MODE_PRIVATE);
+        userInfo = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         savedPhone = userInfo.getString("phone", " ");
+        isVolunteer = userInfo.getBoolean("volunteer", false);
         if(savedPhone == " ")
            intent = new Intent (LaunchingPage.this, loginPage.class);
         else{

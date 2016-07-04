@@ -79,9 +79,13 @@ public class loginPage extends AppCompatActivity {
                 try {
                     if(jsonObject.getString("success").equals("1"))
                     {
-                        SharedPreferences.Editor updatePhone = LaunchingPage.userInfo.edit();
-                        updatePhone.putString("phone", phoneNo);
-                        updatePhone.commit();
+                        boolean volunteer = false;
+                        if(jsonObject.getString("isVolunteer").equals("1"))
+                            volunteer = true;
+                        SharedPreferences.Editor updateInfo = LaunchingPage.userInfo.edit();
+                        updateInfo.putString("phone", phoneNo);
+                        updateInfo.putBoolean("volunteer", volunteer);
+                        updateInfo.commit();
                         Intent intent = new Intent(loginPage.this, LoggedIn.class);
                         startActivity(intent);
                         finish();

@@ -1,13 +1,13 @@
 package com.together.stand;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.opengl.EGLDisplay;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.internal.widget.AdapterViewCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,14 +17,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.Toast;
-
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,16 +36,32 @@ public class LoggedIn extends AppCompatActivity {
     ProgressDialog pDialog;
     Spinner spinner, rhSpinner, genSpinner;
     ArrayAdapter adapter, rhadapter, genAdapter;
-    EditText nm, ag, hei, wei, add;
+    EditText nm, ag, hei, wei, add, pin;
     String []blood_groups;
-    String bl_grp;
+    String bl_grp, PIN;
     String rh, rh_factor[];
     String gender[], gen;
     Button submit;
+    AlertDialog.Builder closeApp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_in);
+        closeApp = new AlertDialog.Builder(this);
+        closeApp.setMessage("Do you want to close the application");
+        closeApp.setCancelable(false);
+        closeApp.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
+        closeApp.setPositiveButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
         blood_groups = new String[]{"A", "B", "AB", "O"};
         rh_factor = new String[]{"+", "-"};
         gender = new String[]{"Male", "Female"};
@@ -69,6 +81,7 @@ public class LoggedIn extends AppCompatActivity {
         if(item.getItemId() == R.id.action_logout){
             SharedPreferences.Editor update = LaunchingPage.userInfo.edit();
             update.putString("phone", " ");
+            update.putBoolean("volunteer", false);
             update.commit();
             startActivity(new Intent(getApplicationContext(), loginPage.class));
             finish();
@@ -82,10 +95,15 @@ public class LoggedIn extends AppCompatActivity {
     }
 
     public void register_volunteer(View v){
+        if(LaunchingPage.userInfo.getBoolean("volunteer", false)){
+            Toast.makeText(getApplicationContext(), "This phone is already registered", Toast.LENGTH_LONG).show();
+            return ;
+        }
         setContentView(R.layout.volunteer_form);
         home = false;
         nm = (EditText) findViewById(R.id.name);
         add = (EditText) findViewById(R.id.address);
+        pin = (EditText) findViewById(R.id.PIN);
         ag = (EditText) findViewById(R.id.age);
         hei = (EditText) findViewById(R.id.height);
         wei = (EditText) findViewById(R.id.weight);
@@ -128,19 +146,6 @@ public class LoggedIn extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-
-       /** submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                name = nm.getText().toString();
-                address = add.getText().toString();
-                age = ag.getText().toString();
-                height = hei.getText().toString();
-                weight = wei.getText().toString();
-                new task().execute();
-            }
-        });*/
-
     }
 
     class task extends AsyncTask<String, Void, JSONObject>{
@@ -149,8 +154,10 @@ public class LoggedIn extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             param = new ArrayList<>();
+            param.add(new BasicNameValuePair("phone", LaunchingPage.userInfo.getString("phone", " ")));
             param.add(new BasicNameValuePair("name", name));
             param.add(new BasicNameValuePair("address", address));
+            param.add(new BasicNameValuePair("pincode", PIN));
             param.add(new BasicNameValuePair("height", height));
             param.add(new BasicNameValuePair("weight", weight));
             param.add(new BasicNameValuePair("blood_group", bl_grp));
@@ -179,6 +186,9 @@ public class LoggedIn extends AppCompatActivity {
                 try{
                     if(jsonObject.getString("success").equals("1")){
                         Toast.makeText(getApplicationContext(), "Congrats your data uploaded successfully", Toast.LENGTH_LONG).show();
+                        SharedPreferences.Editor updateVol = LaunchingPage.userInfo.edit();
+                        updateVol.putBoolean("volunteer", true);
+                        updateVol.commit();
                         setContentView(R.layout.activity_logged_in);
                     }
                 }catch (Exception e){
@@ -197,17 +207,22 @@ public class LoggedIn extends AppCompatActivity {
         Log.i(TAG, "HERE");
         name = nm.getText().toString();
         address = add.getText().toString();
+        PIN = pin.getText().toString();
         age = ag.getText().toString();
         height = hei.getText().toString();
         weight = wei.getText().toString();
         new task().execute();
     }
 
+    public void register_organisation(View v){
+
+    }
+
     @Override
     public void onBackPressed() {
         Log.d(TAG, "back");
         if(home){
-            super.onBackPressed();
+            closeApp.show();
         }
         else {
             Log.d(TAG, "after exit");
