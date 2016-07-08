@@ -1,5 +1,6 @@
 package com.together.stand;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.internal.widget.DialogTitle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -80,11 +82,23 @@ public class LoggedIn extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.action_logout){
             SharedPreferences.Editor update = LaunchingPage.userInfo.edit();
-            update.putString("phone", " ");
+            update.putString("phone", "NON");
             update.putBoolean("volunteer", false);
             update.commit();
             startActivity(new Intent(getApplicationContext(), loginPage.class));
             finish();
+        }
+        if(item.getItemId() == R.id.view_phone){
+            AlertDialog phn = new AlertDialog.Builder(LoggedIn.this).create();
+            phn.setTitle("My Number");
+            phn.setMessage(LaunchingPage.userInfo.getString("phone", "NON"));
+            phn.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            phn.show();
         }
         return true;
     }

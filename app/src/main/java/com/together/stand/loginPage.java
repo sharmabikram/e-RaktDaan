@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -89,6 +90,11 @@ public class loginPage extends AppCompatActivity {
                         Intent intent = new Intent(loginPage.this, LoggedIn.class);
                         startActivity(intent);
                         finish();
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "Invalid phone or password", Toast.LENGTH_LONG).show();
+                        //phone.setText("");
+                        pass.setText("");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

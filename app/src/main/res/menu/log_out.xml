@@ -1,8 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:anddroid="http://schemas.android.com/tools">
     <item
         android:id="@+id/action_logout"
         android:orderInCategory="100"
         android:title="LogOut"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/view_phone"
+        android:orderInCategory="100"
+        android:title="My Number"
+         />
 </menu>
