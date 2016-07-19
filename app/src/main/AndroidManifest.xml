@@ -22,7 +22,9 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".Afterlogin" />
         <activity android:name=".LoggedIn" />
-        <activity android:name=".loginPage"></activity>
+        <activity android:name=".loginPage" />
+        <activity android:name=".RequirementDetail" />
+        <activity android:name=".ShowList"></activity>
     </application>
 
 </manifest>

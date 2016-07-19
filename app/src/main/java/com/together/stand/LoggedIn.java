@@ -1,6 +1,5 @@
 package com.together.stand;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.internal.widget.DialogTitle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +27,8 @@ import java.util.List;
 public class LoggedIn extends AppCompatActivity {
 
     static boolean home = true;
-
+    static Volunteer list[];
+    static String reqPin = null;
     String TAG = "Update";
     String url = "http://10.0.3.2/donate/registerVolunteer.php";
     String name, address, blood, factor;
@@ -105,7 +104,7 @@ public class LoggedIn extends AppCompatActivity {
 
     public void getList(View v){
         // get the list
-        setContentView(0);
+        startActivity(new Intent(LoggedIn.this, RequirementDetail.class));
     }
 
     public void register_volunteer(View v){
@@ -135,7 +134,7 @@ public class LoggedIn extends AppCompatActivity {
             }
         });
 
-        rhSpinner = (Spinner) findViewById(R.id.rh_factor);
+        rhSpinner = (Spinner) findViewById(R.id.req_rh_factor);
         rhSpinner.setAdapter(rhadapter);
         rhSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -229,7 +228,8 @@ public class LoggedIn extends AppCompatActivity {
     }
 
     public void register_organisation(View v){
-
+        Toast.makeText(getApplicationContext(), "We will be adding this feature soon", Toast.LENGTH_LONG).show();
+        return ;
     }
 
     @Override
