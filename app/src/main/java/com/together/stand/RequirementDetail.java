@@ -41,8 +41,8 @@ public class RequirementDetail extends AppCompatActivity {
         reqPIN = (EditText) findViewById(R.id.reqPIN);
 
         req_rh_fac = (Spinner) findViewById(R.id.req_rh_factor);
-        blood_groups = new String[]{"A", "B", "AB", "O"};
-        rh_factor = new String[]{"+", "-"};
+        blood_groups = new String[]{"NA","A", "B", "AB", "O"};
+        rh_factor = new String[]{"NA", "+", "-"};
 
         bl = new ArrayAdapter(this, android.R.layout.select_dialog_singlechoice, blood_groups);
         rhFac = new ArrayAdapter(this, android.R.layout.select_dialog_singlechoice, rh_factor);
@@ -76,11 +76,21 @@ public class RequirementDetail extends AppCompatActivity {
 
     public void scanResult(View v){
         pin = reqPIN.getText().toString();
+        if(pin.compareTo("")==0)
+            pin = "0";
+        try{
+            int a = Integer.parseInt(pin);
+            System.out.println("a= = "+ a);
+            LoggedIn.reqPin = pin;
+        }catch(Exception e){
+            Toast.makeText(getApplicationContext(), "Format Error, Pin is set to 0", Toast.LENGTH_LONG).show();
+            LoggedIn.reqPin = "0";
+        }
 
-        Log.i(TAG, pin);
+      /*  Log.i(TAG, pin);
         Log.i(TAG, bl_grp);
-        Log.i(TAG, rh);
-        LoggedIn.reqPin = pin;
+        Log.i(TAG, rh);*/
+
         new task().execute();
     }
 
@@ -99,7 +109,7 @@ public class RequirementDetail extends AppCompatActivity {
             super.onPreExecute();
 
             param = new ArrayList<>();
-            param.add(new BasicNameValuePair("pincode", pin));
+            //param.add(new BasicNameValuePair("pincode", pin));
             param.add(new BasicNameValuePair("blood_group", bl_grp));
             param.add(new BasicNameValuePair("rhFac", rh));
 
