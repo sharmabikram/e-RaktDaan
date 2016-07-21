@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.SyncFailedException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -80,18 +81,12 @@ public class JSONParser {
             String line = null;
             while ((line = reader.readLine()) != null) {
                sb.append(line + "\n");
-           //     System.out.println(line);
-               /* if(line.compareTo("{\"success\":1,\"message\":\"Logged in\"}")==0){
-                    sb = null;
-                    sb.append(line);
-                    System.out.println("app");
-                    break;
-                }*/
             }
             is.close();
             json = sb.toString();
 
             System.out.println("json ="+json);
+            System.out.println(json+" This is json");
         } catch (Exception e) {
             Log.e("Buffer Error", "Error converting result " + e.toString());
         }

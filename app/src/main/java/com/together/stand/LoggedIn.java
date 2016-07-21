@@ -27,6 +27,7 @@ import java.util.List;
 public class LoggedIn extends AppCompatActivity {
 
     static boolean home = true;
+    //static boolean invalidPin = false;
     static Volunteer list[];
     static String reqPin = null;
     String TAG = "Update";
@@ -197,13 +198,20 @@ public class LoggedIn extends AppCompatActivity {
             pDialog.dismiss();
             if(jsonObject !=null){
                 try{
-                    if(jsonObject.getString("success").equals("1")){
+                    if(jsonObject.getString("success").equals("1") && jsonObject.getString("pin").equals("1")){
                         Toast.makeText(getApplicationContext(), "Congrats your data uploaded successfully", Toast.LENGTH_LONG).show();
                         SharedPreferences.Editor updateVol = LaunchingPage.userInfo.edit();
                         updateVol.putBoolean("volunteer", true);
                         updateVol.commit();
                         setContentView(R.layout.activity_logged_in);
                     }
+                    else if(jsonObject.getString("pin").equals("0")){
+                        Toast.makeText(getApplicationContext(), "Invalid PIN", Toast.LENGTH_SHORT).show();
+                        //invalidPin = true;
+                        pin.setText("");
+                    }
+                    else
+                        Toast.makeText(getApplicationContext(), "Something Went wrong, Try Again", Toast.LENGTH_LONG).show();
                 }catch (Exception e){
                     System.out.println("Exception at postExecute at logged in");
                 }

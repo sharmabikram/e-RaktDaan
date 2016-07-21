@@ -21,23 +21,26 @@ public class ShowList extends ListActivity {
 
     ListView lv;
     ArrayAdapter arrayAdapter;
-    String pincode[];
-    int diff[];
+    String name[];
+   // int diff[];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         System.out.println(LoggedIn.list.length);
         System.out.println(LoggedIn.list[0].pincode);
-        pincode = new String[LoggedIn.list.length];
-        diff = new int[LoggedIn.list.length];
-        for(int i=0; i<LoggedIn.list.length; ++i){
+        name = new String[LoggedIn.list.length];
+        //diff = new int[LoggedIn.list.length];
+       /* for(int i=0; i<LoggedIn.list.length; ++i){
            //pincode[i] = new String();
             pincode[i] = LoggedIn.list[i].pincode;
-            diff[i] = Math.abs(Integer.parseInt(pincode[i]) - Integer.parseInt(LoggedIn.reqPin));
-        }
-        Arrays.sort(pincode, new PinCompare());
+           // diff[i] = Math.abs(Integer.parseInt(pincode[i]) - Integer.parseInt(LoggedIn.reqPin));
+        }*/
+      //  Arrays.sort(pincode, new PinCompare());
         Arrays.sort(LoggedIn.list, new ListCompare());
-        arrayAdapter = new ArrayAdapter(ShowList.this, android.R.layout.simple_list_item_1, pincode);
+        for(int i=0; i<LoggedIn.list.length; ++i){
+            name[i] = LoggedIn.list[i].name;
+        }
+        arrayAdapter = new ArrayAdapter(ShowList.this, android.R.layout.simple_list_item_1, name);
         //setContentView(R.layout.volunteer_list);
         setListAdapter(arrayAdapter);
     }
@@ -46,7 +49,8 @@ public class ShowList extends ListActivity {
     protected void onListItemClick(ListView l, View v, int i, long id) {
         super.onListItemClick(l, v, i, id);
         String myInfo = LoggedIn.list[i].name + "\n" + LoggedIn.list[i].phone
-                        + "\n" + "PIN: " + LoggedIn.list[i].pincode + "\n" +
+                        + "\n" + LoggedIn.list[i].address +
+                        "\nPIN: " + LoggedIn.list[i].pincode + "\n" +
                         LoggedIn.list[i].blood_group + LoggedIn.list[i].rh_factor;
         AlertDialog info = new AlertDialog.Builder(ShowList.this).create();
         info.setTitle("Volunteer Info");
@@ -58,20 +62,6 @@ public class ShowList extends ListActivity {
             }
         });
         info.show();
-    }
-
-    class PinCompare implements Comparator<String>{
-
-        @Override
-        public int compare(String a, String b) {
-            int relative;
-            int first, second;
-            first = Integer.parseInt(a);
-            second = Integer.parseInt(b);
-            int req = Integer.parseInt(LoggedIn.reqPin);
-            relative = Math.abs(first - req) - Math.abs(second - req);
-            return relative;
-        }
     }
 
     class ListCompare implements Comparator<Volunteer>{

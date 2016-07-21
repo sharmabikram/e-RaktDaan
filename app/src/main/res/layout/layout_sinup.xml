@@ -7,17 +7,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Email:"
+        android:text="Phone:"
         android:id="@+id/textView3"
         android:layout_marginLeft="37dp"
         android:layout_marginStart="37dp"
         android:layout_marginTop="51dp" />
     <EditText
+        android:hint="Enter 10 digit phone number"
         android:ems="10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
-        android:id="@+id/editText3"
+        android:id="@+id/signupPhone"
         android:layout_marginLeft="37dp"
         android:layout_marginStart="37dp"
         android:layout_marginTop="78dp"/>
@@ -31,11 +32,12 @@
         android:layout_marginStart="37dp"
         android:layout_marginTop="135dp" />
     <EditText
+        android:hint="min 5 letters"
         android:ems="10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:id="@+id/editText2"
+        android:inputType="textPassword"
+        android:id="@+id/signupPass"
         android:layout_marginLeft="37dp"
         android:layout_marginStart="37dp"
         android:layout_marginTop="163dp"/>
@@ -52,62 +54,22 @@
         android:ems="10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:id="@+id/editText"
+        android:inputType="textPassword"
+        android:id="@+id/signupRePass"
         android:layout_marginLeft="37dp"
         android:layout_marginStart="37dp"
         android:layout_marginTop="246dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Phone:"
-        android:id="@+id/textView0"
-        android:layout_marginLeft="37dp"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="303dp" />
-    <EditText
-        android:ems="10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:id="@+id/editText0"
-        android:layout_marginLeft="37dp"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="330dp"/>
+
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SignUp"
         android:id="@+id/button2"
-        android:layout_below="@+id/editText0"
+        android:layout_below="@+id/signupRePass"
 
         android:layout_marginTop="30dp"
         android:layout_marginLeft="37dp"
         android:layout_marginStart="37dp"
          />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Verify"
-        android:id="@+id/button3"
-        android:layout_marginTop="125dp"
-        android:layout_marginLeft="37dp"
-        android:layout_marginStart="37dp"
-
-         />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Resent OTP??"
-        android:id="@+id/textView4"
-        android:layout_marginTop="139dp"
-        android:layout_marginLeft="137dp"
-        android:layout_marginStart="137dp" />
-
-
 </RelativeLayout>
